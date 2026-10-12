@@ -1,4 +1,6 @@
-# PM 模板與 OrderManagementSystem 規則差異
+# 歷史快照：PM 模板與 OrderManagementSystem 規則差異
+
+> 此為 2026-09-19 / PR #3 的歷史快照。2026-10-12 模板規則已遷移至 AGENTS.md，模型與 README 差異已在本模板調整；以下不代表 OMS 或模板目前狀態。當前規則以 AGENTS.md 與 MODEL_ROUTING.md 為準。
 
 比較基準：PM 模板 main；OrderManagementSystem main 及待合併 PR #33。下表區分本次已改內容與待決策建議，建議不視為已授權。
 
