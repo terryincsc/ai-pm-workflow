@@ -4,7 +4,7 @@
 
 共用流程全部維護在 [AGENTS.md](AGENTS.md)。`CLAUDE.md` 只保留 `@AGENTS.md` 相容入口，沒有第二份規則。各平台 agent 檔只保留模型、能力設定及角色文件引用。
 
-> 文件名稱已採 AI PM Workflow；GitHub repository 目前仍叫 `claude-code-pm-workflow`。建議更名為 `ai-pm-workflow`，repository 設定更名尚未執行。不要把文件標題更新當成遠端網址已更改。
+> Repository：[terryincsc/ai-pm-workflow](https://github.com/terryincsc/ai-pm-workflow)。
 
 ## 分工與模型
 
@@ -15,10 +15,13 @@
 | 一般功能與整合 | rd | Sonnet | GPT-6.1 Sol |
 | 明確、可驗證的局部修改 | rd_mechanical | Haiku | GPT-6 Luna |
 | 疑難除錯與根因修復 | rd_debugger | Opus | GPT-6 Astra |
+| 測試設計與撰寫 | test_writer | Sonnet | GPT-6.1 Sol（high） |
 | 規格及品質審查 | reviewer | Sonnet；高風險 Opus | GPT-6.1 Sol；高風險 Astra |
 | 功能驗收與回歸 | tester | Sonnet | GPT-6.1 Sol |
 
 只使用必要角色，不強制每項需求走完四種 RD。完整界線、effort、升級與可用性規則見 [模型選擇](docs/MODEL_ROUTING.md)。型號建議不是效能保證，也不是跨供應商自動路由。
+
+只有符合 [小改條件](docs/TASK_SIZING.md) 及已列案例才走小改，其餘一般功能。PM 可在實作核准前派唯讀 RD 查檔案與 commit，並自行撰寫正式範圍、驗收及派工紀錄；格式見 [規劃書說明](docs/plans/README.md)。
 
 ## 檔案結構
 
@@ -27,8 +30,9 @@
 | AGENTS.md | 共用八階段流程、角色界線與授權規則 |
 | CLAUDE.md | 一行相容載入入口 |
 | docs/agents/ | 平台中立角色職責；寫入型 RD 共用 rd-common.md |
-| .claude/agents/ | Claude Code 六個角色的 YAML frontmatter 與引用 |
-| .codex/agents/ | Codex 六個角色的 TOML 設定與引用 |
+| .claude/agents/ | Claude Code 七個角色的 YAML frontmatter 與引用 |
+| .codex/agents/ | Codex 七個角色的 TOML 設定與引用 |
+| docs/TASK_SIZING.md | 小改允許條件、一般功能及使用者確認後增補規則 |
 | docs/MODEL_ROUTING.md | GPT／Claude 選模、升級與實際生效方式 |
 | docs/SYSTEM_STATUS.md | 現況、功能、進行中任務；開 PR 前更新 |
 | docs/DECISIONS.md | 已拍板決策與原因 |
@@ -38,9 +42,9 @@
 ## 新專案使用
 
 1. 複製 AGENTS.md、CLAUDE.md、docs/ 與需要的平台設定目錄到新專案。已有同名文件時先整合內容，不直接覆蓋。
-2. 保留 docs/agents/、MODEL_ROUTING.md 與 docs/plans/README.md；將本模板的現況、決策、待辦及 001 規劃書改為新專案自己的內容，勿把模板維護紀錄當成產品需求。
+2. 保留 docs/agents/、MODEL_ROUTING.md、TASK_SIZING.md 與 docs/plans/README.md；將本模板的現況、決策、待辦及編號規劃書改為新專案自己的內容，勿把模板維護紀錄當成產品需求。
 3. PM 填入技術棧、啟動方式、測試指令，並確認平台實際支援哪些模型與 subagent 能力。
-4. 需求討論 → 規劃書 → 使用者確認 → 同一工作分支落實文件與派工 → RD 自測 → Reviewer → Tester → 更新 SYSTEM_STATUS／開 PR → 使用者 merge。
+4. 需求討論 → 規劃書 → 使用者確認 → 同一工作分支落實文件與派工 → RD 實作／自測 + Test Writer 撰寫測試 → 整合 → 全新 Reviewer → PM 另開全新 Tester → 更新 SYSTEM_STATUS／開 PR → 使用者 merge。
 5. 一需求一分支一 PR；不先開獨立 docs PR。未合併工作以該分支文件與 PR 為準，已合併現況以 main 為準。
 
 ### Claude Code

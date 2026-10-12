@@ -8,17 +8,18 @@
 |---|---|---|---|---|
 | PM（主對話） | 需求、取捨、派工、驗收；不寫產品程式碼 | Opus | GPT-6 Astra（gpt-6-astra） | medium |
 | rd_architect | 唯讀技術分析、資料流與介面拆解；不改碼 | opus | gpt-6-astra | medium |
-| rd | 一般功能、整合、必要測試 | sonnet | gpt-6.1-sol | medium |
+| rd | 一般功能、整合、自測；只寫明確分配的測試 | sonnet | gpt-6.1-sol | medium |
 | rd_mechanical | 已知位置、明確改法、可直接驗證的局部修改 | haiku | gpt-6-luna | high |
 | rd_debugger | 根因不明、複雜狀態、跨模組除錯 | opus | gpt-6-astra | medium |
+| test_writer | 依規格設計、撰寫測試；不兼任最終驗收 | sonnet | gpt-6.1-sol | high |
 | reviewer | 規格符合度、品質、測試缺口；唯讀、不跑測試 | sonnet | gpt-6.1-sol | high |
 | tester | 驗收推理、實際測試、回歸；不修改來源檔 | sonnet | gpt-6.1-sol | medium |
 
-PM 主對話模型由使用者在工具中選擇，AGENTS.md 不會替使用者切模型。其餘六個角色均提供兩平台的明確模型設定；Claude 的 effort 本模板不固定，使用當前模型支援的設定，必要時派工記錄實際值。不要把 GPT effort 或 ID 直接抄到 Claude 設定。
+PM 主對話模型由使用者在工具中選擇，AGENTS.md 不會替使用者切模型。其餘七個角色均提供兩平台的明確模型設定；Claude 的 effort 本模板不固定，使用當前模型支援的設定，必要時派工記錄實際值。不要把 GPT effort 或 ID 直接抄到 Claude 設定。
 
 ## 怎麼選 RD
 
-1. 已確認產品需求，但技術方案、資料關係或相容性不清楚：先用 **rd_architect** 只讀分析；PM 把分析納入既有範圍，新增產品取捨仍交使用者決定。
+1. 使用者已要求研究或規劃，但技術方案、資料關係或相容性不清楚：先用 **rd_architect** 只讀分析；PM 把分析納入既有範圍，新增產品取捨仍交使用者決定。
 2. 檔案與改法已明確，沒有架構或業務規則判斷：用 **rd_mechanical**。不是單檔案就一定簡單；權限、帳務、交易、資料刪除與併發不得以檔案少為由降級。
 3. 一般功能與多檔案整合：用 **rd**。預設選這個，不為每個任務額外增加分析角色。
 4. 根因不明或一般 RD 已有證據顯示推理卡住：用 **rd_debugger**；提供重現方式、log、已試方法與結果。
@@ -27,10 +28,11 @@ PM 主對話模型由使用者在工具中選擇，AGENTS.md 不會替使用者�
 
 例：調整已定位的 Header 標籤 → rd_mechanical；新增有既定介面的代點功能 → rd；設計代點權限與訂單資料流 → rd_architect；代點後跨帳單狀態偶發錯誤 → rd_debugger。
 
-## Reviewer / Tester
+## Test Writer / Reviewer / Tester
 
-- 一般審查及驗收以 Sonnet / Sol 起步。
-- 權限、帳務、併發、資料遷移或跨模組高風險變更，Reviewer 升至 Opus / Astra；PM 在派工與 PR 記錄理由。
+- 三者均以 Sonnet / Sol 起步。Test Writer 需推導案例及預期，Sol 預設 high；Tester 負責獨立驗收及執行，Sol 預設 medium。獨立性來自新上下文、規格與證據，不要求兩者使用不同模型。
+- PM 在 RD 及 Test Writer 完成、整合且 Reviewer 通過後另開全新的 Tester，不續用 Test Writer 對話。
+- 權限、帳務、併發、資料遷移或跨模組高風險變更，Reviewer 升至 Opus / Astra；Test Writer / Tester 有跨規則推理需求或實際漏測證據時也可升級；PM 在派工與 PR 記錄理由。
 - Tester 不全部降到 Haiku / Luna：它需要判斷業務驗收與測試缺口。只有跑已指定指令及整理輸出可交腳本／CI；這不能代替獨立驗收。
 - 純文件及設定變更只需語法、引用、差異與規則一致性檢查；不虛構應用程式測試。
 
@@ -60,7 +62,7 @@ PM 主對話模型由使用者在工具中選擇，AGENTS.md 不會替使用者�
 
 ## 派工紀錄
 
-每次記錄：角色、平台、實際模型、effort（或未指定／不支援）、選模理由、輸入規格、允許檔案、測試方式、退回次數。結果記錄實際指令、耗時與 token／成本（工具提供才記，不估造數字）、缺陷與漏測。用數個真實任務比較總成本與品質，不能只比較每 token 單價。
+**由 PM 在本次規劃書內維護**，格式見 docs/plans/README.md；派工前建檔、回報與升級時更新，不等 RD 完工才補。各角色提交證據，PM 記錄：角色、平台、實際模型、effort（或未指定／不支援）、選模理由、輸入規格、允許檔案、測試方式、退回次數。結果記錄實際指令、耗時與 token／成本（工具提供才記，不估造數字）、缺陷與漏測。用數個真實任務比較總成本與品質，不能只比較每 token 單價。
 
 ## 官方參考
 
