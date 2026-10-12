@@ -34,11 +34,21 @@
 
 | 派工 | 角色／模型／effort | 理由與範圍 | 狀態／證據 |
 |---|---|---|---|
-| W1 | PM／目前主對話；模型與用量未由工具提供 | 流程文件與角色設定；不碰產品或測試碼 | 文件修改完成，送獨立審查 |
-| W2 | reviewer／gpt-6.1-sol／high | 全新上下文，唯讀審查本次 diff 及 R1–R4 | 初審發現案例增補順序與硬條件矛盾，已修正；待全新 Reviewer 複核 |
+| W1 | PM／目前主對話；模型與用量未由工具提供 | 流程文件與角色設定；不碰產品或測試碼 | 文件修改、獨立審查與驗證完成 |
+| W2 | reviewer／gpt-6.1-sol／high | 全新上下文，唯讀審查本次 diff 及 R1–R4 | 初審發現案例增補順序與硬條件矛盾，已修正並通過 W2b 複核 |
 | W2b | reviewer／gpt-6.1-sol／high | 全新上下文，複核小改條件修正及新引入風險 | PASS，前次 blocker 已解；採納措辭建議明列增補前核對 1–5 項、增補後核對第 6 項 |
-| W3 | tester／gpt-6.1-sol／medium | 審查通過後全新上下文，語法、引用與一致性檢查 | 待啟動，驗證以下實作存檔版本 |
+| W3 | tester／gpt-6.1-sol／medium | 審查通過後全新上下文，語法、引用與一致性檢查 | validate_rules：PASS；兩平台 14 設定、模型映射、引用、規則及來源不變通過 |
 
 退回次數：1 / 2。耗時、token 與成本未提供，不估造。
 
-狀態：實作與審查完成，待獨立驗證。
+## 驗證證據
+
+- 本機驗證版本 `9bce10f9541e6d193e83b305106c5835c04b41c5`；GitHub 對應版本 `6ebca12120ee90520a0d32ea9bd88229468ee071`，兩者 tree 均為 `f40a71bb21ecfd54ce8d5382b710ec54130de3ed`。上傳使用 GitHub API，commit metadata 不同但內容一致。
+- Tester 實際執行 `git diff --check origin/main`，exit 0；Python `tomllib.loads` / `yaml.safe_load` 解析兩平台各七角色，模型、effort 與角色引用一致。
+- CLAUDE 單行 import、相對 Markdown 連結、fence、R1–R4 規則與八階段／授權／退回上限／PR 關卡檢查通過；原一次性處理規則逐字保留。
+- Tester 驗證前後 34 個 tracked 檔案集合 SHA-256 同為 `66d092f1584e003cdb4447fd8b10ead1776895c41c4756b8f1539838e2d5437f`，工作區乾淨。
+- 檢查腳本初次誤將 Tester sandbox 預期設成 read-only 而中止；核對 main 與既有規則後修正驗證假設，完整重跑通過，未改來源設定。
+- 未驗證真實 CLI 載入、付費模型呼叫或 OS 隔離；本專案無產品程式，不宣稱產品測試通過。
+- 本段及 SYSTEM_STATUS / BACKLOG 是 PM 收到報告後的收尾紀錄，未改驗證過的角色設定與流程規則。
+
+狀態：✅ 實作與驗證完成，待合併。

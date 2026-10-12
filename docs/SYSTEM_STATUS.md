@@ -33,7 +33,7 @@
 ## 三、進行中任務
 
 - 規劃書：docs/plans/002_2026-10-12_task-sizing-test-roles.md。
-- 階段：實作中；001 已於 PR #4 合併。
+- 階段：已通過獨立審查及靜態驗證，待合併；001 已於 PR #4 合併。
 - 工作分支：docs/task-sizing-test-roles，從最新 main 開始。
 
 ## 四、已知限制
@@ -42,7 +42,14 @@
 - GitHub repository 已更名為 terryincsc/ai-pm-workflow。
 - Claude Bash 白名單與文字規則不是 OS 層唯讀保證；Codex 的 sandbox 可能受主 session 覆寫。
 
-## 五、前次 001 驗證證據（002 尚待驗證）
+## 五、本次 002 驗證證據
+
+- 獨立 Reviewer 初審發現小改案例例外矛盾，修正後由全新 Reviewer 複核 PASS；總退回 1 次。
+- 全新 Tester：兩平台各七角色 YAML／TOML 解析、模型／effort／路徑映射、CLAUDE import、Markdown 連結與 fence、R1–R4 及原授權／PR 規則通過。
+- git diff --check origin/main 通過；驗證前後 34 個 tracked 檔案雜湊相同，來源無變更。詳細版本與指令見規劃書 002。
+- 未測實際 CLI 載入、模型執行或 OS 隔離。以下保留歷史證據。
+
+## 六、前次 001 驗證證據
 
 - 兩平台各六個 YAML／TOML 設定解析、角色路徑與模型／effort 對照通過。
 - Markdown 引用與 fence、CLAUDE 單行 import、八階段及原範圍規則保留檢查通過。
