@@ -7,7 +7,7 @@
 - 用途：AI PM Workflow，供 Codex / GPT 與 Claude Code 使用的協作文件模板。
 - 技術：Markdown、Claude agent YAML frontmatter、Codex agent TOML；無應用程式。
 - 共用入口：AGENTS.md；相容入口：CLAUDE.md；角色：docs/agents/；模型：docs/MODEL_ROUTING.md。
-- 平台設定：.claude/agents/ 與 .codex/agents/，各六個角色。
+- 平台設定：.claude/agents/ 與 .codex/agents/，各七個角色（本分支新增 test_writer）。
 - 驗證方式：Markdown 引用、YAML／TOML 語法、角色與模型對照、git diff --check；實际 CLI 載入需在安裝該工具的環境驗證。
 
 ## 二、功能清單
@@ -27,17 +27,17 @@
 
 ## 三、進行中任務
 
-- 規劃書：docs/plans/001_2026-10-12_provider-neutral-agents.md。
-- 階段：已通過獨立審查與靜態驗證，待合併。
-- 工作分支：docs/provider-neutral-agents，接續未合併 PR #3 的範圍控制規則。
+- 規劃書：docs/plans/002_2026-10-12_task-sizing-test-roles.md。
+- 階段：實作中；001 已於 PR #4 合併。
+- 工作分支：docs/task-sizing-test-roles，從最新 main 開始。
 
 ## 四、已知限制
 
 - 本環境沒有 Claude Code／Codex CLI，尚未做真實角色載入或付費模型呼叫驗證。
-- GitHub repository 仍叫 claude-code-pm-workflow；AI PM Workflow 是本次文件名稱，建議遠端名稱 ai-pm-workflow 尚未執行。
+- GitHub repository 已更名為 terryincsc/ai-pm-workflow。
 - Claude Bash 白名單與文字規則不是 OS 層唯讀保證；Codex 的 sandbox 可能受主 session 覆寫。
 
-## 五、本次驗證證據
+## 五、前次 001 驗證證據（002 尚待驗證）
 
 - 兩平台各六個 YAML／TOML 設定解析、角色路徑與模型／effort 對照通過。
 - Markdown 引用與 fence、CLAUDE 單行 import、八階段及原範圍規則保留檢查通過。
