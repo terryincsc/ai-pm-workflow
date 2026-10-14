@@ -20,3 +20,12 @@
 - RD 按工作分為分析／一般實作／機械修改／除錯；保留獨立 Reviewer／Tester，按風險選模型。
 - 模型對照是建議預設，不是跨供應商效能等價或自動路由保證。
 - 專案顯示名稱採 AI PM Workflow；遠端 ai-pm-workflow 名稱仍為提案，尚未執行 repository rename。
+
+### D002 ─ 小改條件與獨立測試分工（2026-10-12，出自規劃書 002）
+- 決定：只有符合 docs/TASK_SIZING.md 全部條件及已列案例才走小改，其餘一般功能；不設第三種複雜流程。使用者確認具體案例後，由 PM 記入規則，不自行放寬。
+- 需求研究可先派唯讀 rd_architect 讀檔案與 commit；正式範圍、驗收及回歸要求由 PM 根據技術證據撰寫，產品取捨由使用者確認。
+- 一般產品功能由 RD 實作、test_writer 撰寫測試；PM 在兩者完成、整合及審查通過後另開全新 tester 驗收。純文件／設定無須額外撰寫測試程式時可省略 test_writer。
+- test_writer 預設 Sonnet / GPT-6.1 Sol high；tester 預設 Sonnet / GPT-6.1 Sol medium。按風險與實際證據調整，不因角色分開而強制更換模型家族。
+- PM 在派工前建立本次規劃書內的紀錄，隨結果、修正及模型調整更新；RD 與其他角色提交證據，不共同編輯紀錄。
+- 本條取代舊流程「核准前不得派任何 RD」及「RD 一律負責撰寫所有測試」的安排；其他授權關卡不變。
+- 現況確認：PR #4 已合併，repository 已更名為 terryincsc/ai-pm-workflow，更新 D001 當時尚未更名的狀態。

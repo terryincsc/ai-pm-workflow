@@ -9,5 +9,6 @@
 |---|---|---|---|
 
 ## 模板維護
-- ✅ B001：共用 AGENTS、RD 分工與雙平台模型設定（001；實作與驗證完成，待合併）。
-- 💡 B002：GitHub repository 更名為 ai-pm-workflow（名稱提案；待可用管理操作）。
+- ✅ B001：共用 AGENTS、RD 分工與雙平台模型設定（001；PR #4 已合併）。
+- ✅ B002：GitHub repository 已更名為 ai-pm-workflow（本次已查證）。
+- ✅ B003：小改條件、唯讀分析、test_writer 與 tester 分工、PM 派工紀錄（002；實作與驗證完成，待合併）。
